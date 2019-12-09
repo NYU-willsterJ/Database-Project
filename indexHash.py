@@ -3,27 +3,18 @@ class Hash:
 
     def __init__(self):
         self.T = {}
-        self.data_list = []
 
     def insert(self, key, value):
         if key in self.T:  # if key already exists, replace with new value
-            index = self.T[key]
-            self.data_list[index][1] = value
+            index_list = self.T.get(key)
+            index_list.append(value)  # append to list of indices of data array
+            self.T[key] = index_list  # update
         else:
-            row = [key, value]
-            self.data_list.append(row)
-            self.T[key] = len(self.data_list) - 1
+            index_list = [value]
+            self.T[key] = index_list
 
     def search(self, key):
-        index = self.T[key]
-        if index is None:
-            return 'Not present'
-        val = self.data_list[index][1]
-        if val is None:
-            return 'Not present'
-        return val
+        if key not in self.T:
+            return None
 
-    def delete(self, key):
-        if key in self.T:
-            index = self.T[key]
-            self.data_list[index][1] = None
+        return self.T[key]
